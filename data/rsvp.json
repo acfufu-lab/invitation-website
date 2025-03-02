@@ -1,8 +1,7 @@
 {
-  "fullName": "asda",
-  "address": "asd",
-  "contactNumber": "1231",
+  "fullName": "test",
+  "address": "lalud test",
+  "contactNumber": "0912932",
   "adultGuests": "1",
-  "kidGuests": "1",
-  "specialRequests": "a"
+  "kidGuests": "1"
 }
