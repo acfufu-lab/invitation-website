@@ -1069,13 +1069,14 @@ body {
 /* 📌 Typing Effect Styles */
 #typingContainer {
     position: absolute;
-    top: 25%; /* Adjust to match red box */
+    top: 14%; /* Adjust to match red box */
     right: 10%; /* Position inside the red box */
-    width: 500px; /* Adjust width */
+    width: 600px; /* Adjust width */
+    left: 70%;
     font-family: "Great Vibes", cursive; /* Wedding-style font */
-    font-size: 28px;
+    font-size: 25px;
     color: white;
-    text-align: center;
+    text-align: justify;
     line-height: 1.5;
     overflow: hidden; /* Hide overflow */
     white-space: nowrap; /* Keep text in one line while typing */
@@ -1084,7 +1085,7 @@ body {
 /* Blinking Cursor */
 #typingText::after {
     content: "|";
-    font-size: 28px;
+    font-size: 15px;
     font-weight: bold;
     opacity: 1;
     animation: blink 0.7s infinite;
@@ -1311,7 +1312,7 @@ body {
 <div class="video-container" id="videoContainer">
     <div class="video-wrapper">
         <video id="scrollVideo" autoplay playsinline>
-        <source src="https://raw.githubusercontent.com/acfufu-lab/invitation-website/main/copy_CF127BD8-2B10-4856-AEBE-0BDA0EDA3768.mov" type="video/mp4">
+        <source src="https://raw.githubusercontent.com/acfufu-lab/invitation-website/main/copy_0EEEA4B0-0FA0-461D-95A3-9B7FB0081B5E.mov" type="video/mp4">
         Your browser does not support the video tag.
     </video>
     </div>
@@ -1333,7 +1334,7 @@ body {
         <span class="close-btn">&times;</span>
 
         <!-- Invitation Image -->
-        <img src="https://raw.githubusercontent.com/acfufu-lab/invitation-website/main/Pastel Floral Cute Girl 1st Birthday Invitation (4).png"
+        <img src="https://raw.githubusercontent.com/acfufu-lab/invitation-website/main/Pastel Floral Cute Girl 1st Birthday Invitation (5).png"
              alt="Floral Invitation" class="floral-invitation-image"
              width="400" height="500">
 
@@ -1377,40 +1378,48 @@ body {
 
     <script>
 
-document.addEventListener("DOMContentLoaded", function () {
-    const text = `Born into this world not very long ago, My parents gave me all I need and all their love to grow.
-Nanay & Tatay will raise me strong and always keep me true,
-But their trust & love for me are also shared with you.
-
-With joy in our hearts, we invite you to be part of a special day—
-My First Birthday & Christening on March 9, 2025 at the Oriental Mindoro Heritage Museum at 10:30 AM. Your presence will make this day even more meaningful as I celebrate life and faith surrounded by love.
-
-Lot's of Love,
-Ayla Caryn`.replace(/\n/g, "<br>"); // Replace line breaks with <br>
+document.addEventListener("DOMContentLoaded", function () { 
+    const text = [
+        "Born into this world not very long ago,",
+        "My parents gave me all I need and all their love to grow.",
+        "Nanay & Tatay will raise me strong and always keep me true,",
+        "But their trust & love for me are also shared with you.",
+        "",
+        "With joy in our hearts, we invite you to be part of a special day—",
+        "My First Birthday & Christening on March 9, 2025 at the Oriental",
+        "Mindoro Heritage Museum at 10:30am.",
+        "Your presence will make this day even more meaningful",
+         "as I celebrate life and faith surrounded by love.",
+        "",
+        "Lot's of Love,",
+        "Ayla Caryn"
+    ]; // Each line as an array element
 
     let index = 0;
-    const typingSpeed = 50;  // Speed of typing (adjust for faster/slower effect)
-    const eraseSpeed = 1;   // Speed of erasing text
+    let lineIndex = 0;
+    const typingSpeed = 80;  // Speed of typing
     const restartDelay = 3000; // Delay before restarting (3 seconds)
     const typingText = document.getElementById("typingText");
 
     function typeLetter() {
-        if (index < text.length) {
-            typingText.innerHTML += text.charAt(index);
+        if (index < text[lineIndex].length) {
+            typingText.innerHTML += text[lineIndex].charAt(index);
             index++;
             setTimeout(typeLetter, typingSpeed);
         } else {
-            setTimeout(eraseText, restartDelay); // Wait before erasing
-        }
-    }
-
-    function eraseText() {
-        if (index > 0) {
-            typingText.innerHTML = text.substring(0, index - 1);
-            index--;
-            setTimeout(eraseText, eraseSpeed);
-        } else {
-            setTimeout(typeLetter, restartDelay); // Restart typing
+            if (lineIndex < text.length - 1) {
+                typingText.innerHTML += "<br>"; // Add line break after each line
+                lineIndex++;
+                index = 0;
+                setTimeout(typeLetter, typingSpeed);
+            } else {
+                setTimeout(() => {
+                    typingText.innerHTML = ""; // Clears text instead of erasing backward
+                    index = 0;
+                    lineIndex = 0;
+                    typeLetter(); // Restart the typing animation
+                }, restartDelay);
+            }
         }
     }
 
