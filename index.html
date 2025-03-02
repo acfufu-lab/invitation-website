@@ -3,32 +3,1871 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You're Invited!</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.12.0/cdn.min.js" defer></script>
-</head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="bg-white p-8 rounded-lg shadow-lg max-w-lg text-center">
-        <h1 class="text-3xl font-bold text-gray-800 mb-4">You're Invited!</h1>
+    <title>Ayla Caryn's Invitation-Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+    
+
+    <style>
+
+        /* Apply to the entire page */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            background: #000;
+        }
+/* 📌 Modern Navigation Menu */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(181, 178, 178, 0.201);
+    padding: 15px 0;
+    text-align: right;
+    z-index: 1000;
+    padding-right: 20px;
+    transition: top 0.4s ease-in-out, background 0.3s ease-in-out;
+}
+
+/* 🔽 Hide navbar on scroll down, show on scroll up */
+.navbar.hidden {
+    top: -80px;
+}
+
+/* 📜 Navbar List */
+.navbar ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: right;
+    gap: 10px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* 🌟 Navbar Links */
+.navbar ul li {
+    position: relative;
+}
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px;
+    position: relative;
+    transition: color 0.3s ease-in-out;
+}
+
+/* 🎯 Sliding Underline Effect */
+.navbar ul li a::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: #FFD700; /* Gold color */
+    left: 0;
+    bottom: -5px;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease-in-out;
+}
+
+.navbar ul li a:hover {
+    color: #FFD700; /* Change color on hover */
+}
+
+.navbar ul li a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* 📱 Mobile Menu Button */
+.menu-btn {
+    display: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+}
+
+/* 📱 Mobile Menu */
+@media (max-width: 768px) {
+    .navbar ul {
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        display: none;
+        padding: 10px 0;
+    }
+
+    .navbar ul.active {
+        display: flex;
+    }
+
+    .menu-btn {
+        display: block;
+    }
+}
+
+/* 🔔 Notification Badge for "Invitation" */
+.navbar ul li a.notification {
+    position: relative;
+    padding-right: 15px;
+}
+
+/* 📢 Red Badge (Notification Count) */
+.navbar ul li a.notification .badge {
+    position: absolute;
+    top: 5px;
+    right: -10px;
+    background: red;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    animation: pulse 1.5s infinite;
+}
+
+/* 🔥 Pulsing Animation */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.3);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+
+
         
-        <!-- Carousel -->
-        <div x-data="{ activeSlide: 1, totalSlides: 3 }" class="relative w-full max-w-md mx-auto mb-4">
-            <div class="overflow-hidden rounded-lg">
-                <div class="flex transition-transform duration-500" :style="'transform: translateX(-' + (activeSlide - 1) * 100 + '%)'">
-                    <img src="https://via.placeholder.com/400x250?text=Photo+1" class="w-full" alt="Slide 1">
-                    <img src="https://via.placeholder.com/400x250?text=Photo+2" class="w-full" alt="Slide 2">
-                    <img src="https://via.placeholder.com/400x250?text=Photo+3" class="w-full" alt="Slide 3">
+        /* Slideshow Styles */
+        .slideshow {
+    position: fixed; /* Keeps the background fixed in place */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+    overflow: hidden;
+    z-index: -1; /* Places it behind all other elements */
+}
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .slide.active {
+            opacity: 1;
+
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+/* Shooting Star Effect */
+.shooting-star {
+    position: fixed;
+    width: 6px; /* Increased size */
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 15px white;
+    opacity: 1;
+    animation: shootingStar 2s linear forwards;
+}
+
+/* Smooth Shooting Animation */
+@keyframes shootingStar {
+    0% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(400px, 200px) scale(0.5); /* Move farther and shrink slightly */
+        opacity: 0;
+    }
+}
+
+/* Shooting Stars Container */
+#shooting-stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* Prevents interaction */
+    z-index: 99999; /* Ensures stars are above everything */
+    overflow: hidden;
+}
+
+
+
+        /* "Our Little Moonpie is Turning One" Styling */
+        .moonpie-title {
+            position: absolute;
+            top: 10%;
+            left: 5%;
+            color: white;
+            font-family: 'Great Vibes', cursive;
+            text-align: left;
+            z-index: 3;
+            transition: opacity 0.5s ease-in-out;
+
+        }
+
+        .text-container {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+
+}
+
+.small-text {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    font-family: Arial, sans-serif;
+
+}
+
+.script-text {
+    font-size: 3rem;
+    font-family: 'Great Vibes', cursive;
+    margin: 0; /* Ensures no space between "Turning" and "🌙NE" */
+    line-height: 1;
+
+}
+
+.big-text {
+    font-size: 10rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Aligns with the left text */
+    font-family: serif;
+    line-height: 1; /* Removes extra spacing */
+    margin: 0; /* Ensures no gap */
+    padding: 0;
+    letter-spacing: 1px;
+
+}
+
+.moon-icon {
+    font-size: 10rem;
+    color: gold;
+    margin-right: 10px;
+
+}
+
+        .script-text {
+    margin-bottom: -10px; /* Adjust spacing between "Turning" and "🌙NE" */
+
+}
+
+        .subtext {
+            font-size: 2rem;
+            font-weight: bold;
+            font-family: 'Great Vibes', cursive;
+            margin-top: -20px;
+
+        }
+
+        /* Explore the World title positioning */
+        .content {
+            position: fixed;
+            bottom: 22%;
+            left: 55%;
+            transform: translateX(-50%);
+            color: white;
+            text-align: center;
+            z-index: 2;
+
+        }
+        .content h1 {
+            font-size: 3.5rem;
+            font-family: 'Great Vibes', cursive;
+            margin: 0;
+       
+        }
+
+        .cards-container {
+            position: absolute;
+            bottom: 10%;
+            right: 5%;
+            width: 640px;
+            height: 320px;
+            overflow: hidden;
+            display: flex;
+            justify-content: flex-start;
+            perspective: 1500px; /* Enables 3D effect */
+
+        }
+
+        .cards {
+            display: flex;
+            gap: 20px;
+            transform-style: preserve-3d;
+            transition: transform 1s ease-in-out;
+
+        }
+
+        .card {
+            width: 200px;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            box-shadow: 0px 4px 12px rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+            transform-style: preserve-3d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: rotateY(10deg) translateY(-10px);
+            box-shadow: 0px 10px 20px rgba(255, 255, 255, 0.3);
+
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+
+        }
+
+        .card h3 {
+            position: absolute;
+            bottom: 20px;
+            left: 15px;
+            color: white;
+            font-size: 1.2rem;
+            z-index: 2;
+
+        }
+
+        /* Extra spacing for scrolling */
+        .extra-content {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+
+        }
+        
+
+
+.calendar-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+
+}
+
+.calendar-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 90px;
+    background: white;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: Arial, sans-serif;
+
+}
+
+.calendar-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+
+}
+
+.calendar-label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #a00202;
+    text-transform: uppercase;
+
+}
+
+/* Countdown Styling */
+.countdown-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+
+}
+
+.countdown-box {
+    width: 90px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.2); /* Transparent effect */
+    border-radius: 10px;
+    text-align: center;
+    backdrop-filter: blur(10px); /* Glassmorphism effect */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    font-family: Arial, sans-serif;
+    transition: all 0.3s ease-in-out;
+    opacity: 0.9; /* Soft opacity */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.countdown-box:hover {
+    transform: scale(1.05);
+    opacity: 1;
+
+}
+
+.countdown-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #fff; /* Bright white text */
+    transition: all 0.3s ease-in-out;
+
+}
+
+.countdown-label {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #ddd; /* Light grey text */
+    text-transform: uppercase;
+
+}
+
+#moonpieTitle,
+#content,
+#cardsContainer {
+    transition: opacity 0.8s ease-in-out; /* Smooth fade effect */
+    
+}
+
+#cardsContainer {
+    will-change: opacity;
+}
+
+
+.video-container {
+    position: absolute;
+    display: flex;
+    top: 40%;
+    left: 10%;
+    width: 500px; /* Increased width */
+    height: 500px; /* Increased height */
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    z-index: 10;
+
+}
+
+/* 🎥 White box behind the video */
+.video-wrapper {
+    position: relative;
+    padding: 10px; /* White box padding */
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+    transform: rotate(0deg); /* Tilt effect */
+
+}
+
+/* 📹 Video Styling */
+#scrollVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    border-radius: 8px;
+}
+
+.canvasC {
+    position: absolute;
+    display: flex;
+    top: calc(40% + 90px); /* Positions below video */
+    right: -20%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 800px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+
+
+/* 🌟 White Box for Content */
+.canvas-box {
+    background: rgb(67, 67, 67); /* Semi-transparent white */
+    padding: 20px;
+    border-radius: 10px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 60px;
+    
+}
+
+/* 🌸 Floral Number Image */
+.floral-image {
+    width: 100%;
+    max-width: 800x;
+    height: auto;
+
+}
+
+/* 📍 Locate Venue Button */
+.modern-btn {
+    background-color: #ff4081;
+    color: white;
+    border: none;
+    padding: 5px 20px;
+    font-size: 10px;
+    cursor: pointer;
+    border-radius: 30px;
+    margin-top: 10px;
+    width: 50%; /* Make it full width */
+    max-width: 250px; /* Limit width */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.modern-btn:hover {
+    background: linear-gradient(45deg, #ff758c, #ff5e78);
+}
+/* Full-screen overlay */
+/* General Modal Styling */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark overlay */
+    display: flex;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    backdrop-filter: blur(5px); /* Add blur effect */
+}
+/* Modal Content */
+.modal-content {
+    background: white;
+    width: 80vw; /* Adjust width */
+    height: auto; /* Allow height to be flexible */
+    max-height: 90vh; /* Prevent from overflowing */
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+    overflow-y: auto; /* Enable scrolling if content overflows */
+}
+/* Title Text - Make White */
+.modal-content h2 {
+    color: rgb(18, 18, 18) !important; /* Force white text */
+    font-weight: bold;
+    text-align: center;
+    font-size: 22px;
+}
+/* Google Maps Link - Make White */
+.modal-content a {
+    color: rgb(12, 12, 12) !important; /* Force white text */
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+}
+/* Ensure Google Maps Link Stays Blue on Hover */
+.modal-content a:hover {
+    color: #ff9d008f !important; /* Optional: Change hover color to yellow */
+}
+/* 🏵️ Invitation Popup Content */
+.invitation-popup {
+    background: rgb(41, 41, 41);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 500px;
+    width: 80%;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+    transform: scale(0.9);
+    transition: transform 0.4s ease-in-out;
+}
+
+/* 🎀 Invitation Image */
+.floral-invitation-image {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* ✨ Show Modal Animation */
+.modal.show {
+    opacity: 1;
+    transform: scale(1.5);
+}
+
+.invitation-popup.show {
+    transform: scale(1.1);
+}
+
+
+/* Modal Content */
+.modal-content {
+    position: relative; /* Ensures close button is positioned correctly */
+    background: rgb(255, 255, 255);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 80%;
+    max-width: 500px;
+
+}
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: black;
+    background: none;
+    border: none;
+}
+.close-btn:hover {
+    color: red; /* Add hover effect */
+}
+/* Responsive */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95vw;
+        height: auto;
+        max-height: 95vh;
+    }
+}
+
+
+
+/* 📌 RSVP Form - Bigger & Properly Aligned */
+.rsvp-form {
+    position: fixed;
+    top: 60px; /* Aligns below navbar */
+    right: -450px; /* Hidden initially */
+    width: 420px; /* Increased width */
+    height: auto;
+    background: white;
+    box-shadow: -4px 0px 10px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    transition: right 0.5s ease-in-out;
+    border-radius: 15px 0 0 15px;
+    z-index: 1000;
+}
+
+/* 📌 When RSVP Form is Open */
+.rsvp-form.show {
+    right: 10px; /* Slides into view */
+}
+
+/* 📌 Close Button */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 22px;
+    cursor: pointer;
+    color: #333;
+}
+
+.close-btn:hover {
+    color: red;
+}
+
+/* 📌 Title & Description */
+.rsvp-content h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.rsvp-description {
+    color: #666;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 📌 Form Fields */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* 📌 Input & Textarea Styling */
+.form-control {
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 12px;
+    font-size: 16px;
+    width: 100%;
+    transition: 0.3s;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.3);
+}
+
+/* 📌 Submit Button */
+.btn-primary {
+    background-color: #f2eff1;
+    border: none;
+    padding: 14px;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: 0.3s;
+    text-transform: uppercase;
+}
+
+.btn-primary:hover {
+    background-color: #b3005f;
+}
+
+/* 📌 Guests Input Section */
+.guest-inputs {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+/* 📌 Individual Guest Input Box */
+.guest-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 📌 Guest Labels */
+.guest-label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+/* 📌 Form Control (Inherits from Your Existing Styling) */
+.form-control {
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 12px;
+    font-size: 16px;
+    width: 100%;
+    transition: 0.3s;
+}
+
+/* 📌 Responsive Fix for Mobile */
+@media (max-width: 768px) {
+    .guest-inputs {
+        flex-direction: column; /* Stacks the inputs vertically on small screens */
+    }
+}
+
+
+/* 📌 Responsive Adjustments */
+@media (max-width: 768px) {
+    .rsvp-form {
+        width: 100vw; /* Full width on mobile */
+        right: -100vw; /* Start hidden */
+    }
+    .rsvp-form.show {
+        right: 0; /* Slide in */
+    }
+}
+
+/* 📌 RSVP Box - Proper Positioning */
+.rsvp-box {
+    position: absolute;
+    left: 5%; /* Adjusted to align properly */
+    bottom: 5%; /* Adjusted to move up slightly */
+    background: transparent;
+    color: #f2f0ef; /* Warm brown color */
+    font-family: 'Playfair Display', serif; /* Ensure matching font */
+    max-width: 400px;
+}
+
+/* 📌 RSVP Title */
+.rsvp-title {
+    font-size: 50px;
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 2px;
+    margin-bottom: 0;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.rsvp-highlight {
+    font-weight: 700;
+}
+
+/* 📌 RSVP Deadline */
+.rsvp-deadline {
+    font-size: 70px;
+    font-weight: 900;
+    color: #d7bd4d; /* Deep red color */
+    margin-top: -10px;
+}
+
+/* 📌 RSVP Contact Info */
+.rsvp-info {
+    margin-top: 20px;
+}
+
+.rsvp-label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.rsvp-text {
+    font-size: 18px;
+}
+
+.rsvp-line {
+    width: 100%;
+    height: 2px;
+    background: #fdfdfc;
+    margin: 5px 0;
+}
+
+/* 📌 Social Icons */
+.rsvp-icons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.rsvp-icons i {
+    font-size: 24px;
+    color: #f8f6f5;
+}
+
+/* 📌 Responsive Fixes */
+@media (max-width: 1024px) {
+    .rsvp-box {
+        left: 3%; /* Slightly adjust for tablet */
+        bottom: 8%;
+    }
+}
+
+@media (max-width: 768px) {
+    .rsvp-box {
+        left: 2%; /* Adjust for mobile */
+        bottom: 5%;
+        max-width: 100%;
+    }
+
+    .rsvp-title {
+        font-size: 40px;
+    }
+
+    .rsvp-deadline {
+        font-size: 55px;
+    }
+
+    .rsvp-label, .rsvp-text {
+        font-size: 16px;
+    }
+
+    .rsvp-icons i {
+        font-size: 20px;
+    }
+}
+/* 📌 Typewriter Cursor */
+#typewriter::after {
+    content: "|";
+    display: inline-block;
+    margin-left: 5px;
+    opacity: 1;
+    animation: blink 0.5s infinite alternate;
+}
+/* 📌 Typing Cursor */
+#cursor {
+    display: inline-block;
+    margin-left: 5px;
+    opacity: 1;
+    animation: blink 0.5s infinite alternate;
+}
+
+/* Blinking Cursor Animation */
+@keyframes blink {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+/* 📌 Gift Box Icon */
+.gift-icon {
+    display: flex;
+    font-size: 12px; /* Adjust icon size */
+    margin-left: 5px;
+    animation: giftBounce 1s infinite alternate; /* Animation */
+    position: absolute;
+    top: 5px;
+    right: -10px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    animation: pulse 1.5s infinite;
+}
+
+/* 📌 Gift Box Bouncing Effect */
+@keyframes giftBounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-3px); }
+}
+/* 📌 Gift Ideas Panel (Hidden by Default) */
+.gift-panel {
+    position: absolute;
+    top: 60px; /* Below the navbar */
+    left: 0;
+    width: 100%;
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 0 0 10px 10px;
+    text-align: center;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    z-index: 999;
+    display: none;
+}
+
+/* 📌 When Panel is Active (Sliding Down) */
+.gift-panel.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* 📌 When Panel is Hiding (Sliding Up) */
+.gift-panel.hide {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+/* 📌 Gift Panel Content */
+.gift-content {
+    max-width: 600px;
+    margin: auto;
+}
+
+/* 📌 Gift Title */
+.gift-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #d63384; /* Bootstrap pink */
+    margin-bottom: 10px;
+}
+
+/* 📌 Gift Message */
+.gift-message {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+/* 📌 Gift List */
+.gift-list {
+    list-style: none;
+    padding: 0;
+}
+
+.gift-list li {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    padding: 8px 0;
+    background: #f8f9fa; /* Light gray */
+    margin: 5px auto;
+    border-radius: 5px;
+    width: 80%;
+}
+
+/* 📌 Typing Effect Styles */
+#typingContainer {
+    position: absolute;
+    top: 25%; /* Adjust to match red box */
+    right: 10%; /* Position inside the red box */
+    width: 500px; /* Adjust width */
+    font-family: "Great Vibes", cursive; /* Wedding-style font */
+    font-size: 28px;
+    color: white;
+    text-align: center;
+    line-height: 1.5;
+    overflow: hidden; /* Hide overflow */
+    white-space: nowrap; /* Keep text in one line while typing */
+}
+
+/* Blinking Cursor */
+#typingText::after {
+    content: "|";
+    font-size: 28px;
+    font-weight: bold;
+    opacity: 1;
+    animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+   
+ <!-- Shooting Stars Container -->
+ <div id="shooting-stars"></div>
+
+ <!-- 📌 Typing Effect Container -->
+<div id="typingContainer">
+    <p id="typingText"></p> </p>
+    
+</div>
+
+
+<!-- 📌 Modern Navbar -->
+<nav class="navbar" id="navbar">
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+    <ul id="nav-menu">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#youareinvited" class="notification">
+            Invitation <span class="badge" id="inviteBadge">3</span>
+        </a></li>
+        <li>
+            <a href="#" id="giftLink" class="gift-container">
+                Gift Ideas <span class="gift-icon">🎁</span>
+            </a>
+        </li>
+        <li><a href="#" class="notification rsvp-btn">RSVP <span class="badge" id="rsvpBadge">1</span></a></li>
+    </ul>
+</nav>
+
+<!-- 📌 Gift Ideas Sliding Panel -->
+<div id="giftPanel" class="gift-panel">
+    <div class="gift-content">
+        <h3 class="gift-title">🎁 Gift Ideas</h3>
+        <p class="gift-message">
+            Just because we gave these ideas doesn't mean you are obligated to give. <br>
+            <strong>Your Love, Prayers, and Presence are the most precious gift you can give.</strong>
+        </p>
+        <ul class="gift-list">
+            <li>S-26 Promil Gold</li>
+            <li>Unilab Diaper Pants (Large)</li>
+            <li>Educational Toys</li>
+            <li>Educational Books</li>
+            <li>Story Books</li>
+            <li>Monetary Need for AC's future needs</li>
+        </ul>
+    </div>
+</div>
+
+
+<!-- 📌 RSVP Section -->
+<div class="rsvp-box">
+    <h2 class="rsvp-title">
+        <span id="typewriter"></span><span id="cursor"></span> <!-- Typewriter effect -->
+    </h2>
+    <h1 class="rsvp-deadline">BEFORE MARCH 4</h1>
+
+    <div class="rsvp-info">
+        <div class="rsvp-label">PHONE</div>
+        <div class="rsvp-text">0919 095 6418</div>
+        <div class="rsvp-line"></div>
+
+        <div class="rsvp-label">EMAIL</div>
+        <div class="rsvp-text">carolineparlm@gmail.com</div>
+        <div class="rsvp-line"></div>
+
+        <div class="rsvp-label">SOCIAL</div>
+        <div class="rsvp-icons">
+            <i class="fab fa-facebook"></i>
+            <i class="fab fa-telegram"></i>
+            <i class="fab fa-instagram"></i>
+        </div>
+    </div>
+</div>
+
+
+<!-- 📌 RSVP Form -->
+<div class="rsvp-form" id="rsvpForm">
+    <div class="rsvp-content">
+        <span class="close-btn" onclick="closeRSVP()">&times;</span>
+        
+        <!-- Title -->
+        <h2 class="text-center">🎉 RSVP</h2>
+        <p class="text-center rsvp-description">
+            Please confirm your attendance by filling out this form on or before <strong>March 4, 2025</strong>.
+        </p>
+
+        <!-- RSVP Form -->
+        <form id="rsvpFormSubmit">
+            <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="fullName" placeholder="Ayla Caryn" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Address</label>
+                <input type="text" class="form-control" id="address" placeholder="Lalud, Calapan City" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Contact Number</label>
+                <input type="tel" class="form-control" id="contactNumber" placeholder="+63 912 345 6789" required>
+            </div>
+
+            <!-- Guests Breakdown -->
+            <div class="form-group">
+                <label class="form-label">Number of Guests</label>
+                <div class="guest-inputs">
+                    <div class="guest-box">
+                        <label class="guest-label">Adults (13+ years old)</label>
+                        <input type="number" class="form-control" id="adultGuests" min="0" max="10" placeholder="0" required>
+                    </div>
+                    <div class="guest-box">
+                        <label class="guest-label">Kids (12 y.o & below)</label>
+                        <input type="number" class="form-control" id="kidGuests" min="0" max="10" placeholder="0" required>
+                    </div>
                 </div>
             </div>
-            <button @click="activeSlide = activeSlide > 1 ? activeSlide - 1 : totalSlides" class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full">&#9665;</button>
-            <button @click="activeSlide = activeSlide < totalSlides ? activeSlide + 1 : 1" class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full">&#9655;</button>
-        </div>
-        
-        <p class="text-gray-600 text-lg mb-2">Join us for a special celebration!</p>
-        <p class="text-gray-700"><strong>Date:</strong> March 10, 2025</p>
-        <p class="text-gray-700"><strong>Time:</strong> 6:00 PM</p>
-        <p class="text-gray-700 mb-6"><strong>Location:</strong> Venue Name, City</p>
-        <a href="#" class="bg-green-500 text-white px-6 py-2 rounded-lg text-lg font-semibold shadow hover:bg-green-600 transition">RSVP Now</a>
+
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100">Submit RSVP</button>
+        </form>
     </div>
+</div>
+
+
+    
+    
+    <div class="slideshow" id="slideshow">
+        
+        <div class="slide active" style="background-image: url('https://raw.githubusercontent.com/acfufu-lab/invitation-website/main/DSC_9114.JPG');"></div>
+        <div class="slide" style="background-image: url('https://raw.githubusercontent.com/acfufu-lab/invitation-website/main/DSC_9150.JPG');"></div>
+        <div class="slide" style="background-image: url('https://raw.githubusercontent.com/acfufu-lab/invitation-website/main/DSC_9279.JPG');"></div>
+        
+ 
+        <div class="overlay"></div>
+    </div>
+
+    <!-- "Our Little Moonpie is Turning One" -->
+    <div class="moonpie-title" id="moonpieTitle">
+        <div class="text-container">
+            <p class="small-text">OUR LITTLE</p>
+            <p class="script-text">Moonpie</p>
+            <p class="script-text">is turning</p>
+            <p class="big-text">
+                <span class="moon-icon">🌙</span>NE
+            </p>
+            
+            <div class="calendar-container">
+                <div class="calendar-box">
+                    <div class="calendar-value">03</div>
+                    <div class="calendar-label">MONTH</div>
+                </div>
+                <div class="calendar-box">
+                    <div class="calendar-value">09</div>
+                    <div class="calendar-label">DAY</div>
+                </div>
+                <div class="calendar-box">
+                    <div class="calendar-value">25</div>
+                    <div class="calendar-label">YEAR</div>
+                </div>
+            </div>
+            
+                <div class="countdown-container">
+                    <div class="countdown-box">
+                        <div class="countdown-value" id="days">00</div>
+                        <div class="countdown-label">Days</div>
+                    </div>
+                    <div class="countdown-box">
+                        <div class="countdown-value" id="hours">00</div>
+                        <div class="countdown-label">Hours</div>
+                    </div>
+                    <div class="countdown-box">
+                        <div class="countdown-value" id="minutes">00</div>
+                        <div class="countdown-label">Minutes</div>
+                    </div>
+                    <div class="countdown-box">
+                        <div class="countdown-value" id="seconds">00</div>
+                        <div class="countdown-label">Seconds</div>
+                    </div>
+                </div>
+            </div>
+            
+            
+
+        </div>
+    </div>
+    
+    
+
+    <!-- Explore the World title -->
+    <div class="content" id="content">
+        <h1>Ayla Caryn</h1>
+    </div>
+
+ <div class="cards-container" id="cardsContainer">
+    <div class="cards" id="cards">
+        <div class="card" style="background-image: url('https://raw.githubusercontent.com/acfufu-lab/invitation-website/main/DSC_9114.JPG?raw=true');"></div>
+        <div class="card" style="background-image: url('https://raw.githubusercontent.com/acfufu-lab/invitation-website/main/DSC_9150.JPG?raw=true');"></div>
+        <div class="card" style="background-image: url('https://raw.githubusercontent.com/acfufu-lab/invitation-website/main/DSC_9279.JPG?raw=true');"></div>
+        
+
+    </div>
+</div>
+
+
+
+<!-- Video-->
+
+<div class="video-container" id="videoContainer">
+    <div class="video-wrapper">
+        <video id="scrollVideo" autoplay playsinline>
+        <source src="https://raw.githubusercontent.com/acfufu-lab/invitation-website/main/copy_CF127BD8-2B10-4856-AEBE-0BDA0EDA3768.mov" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    </div>
+
+
+    <!-- ✨ New Content Canvas Below the Video -->
+ 
+</div>
+
+<!-- ✨ Content Canvas (Separate from video-container) -->
+
+</div>
+
+
+<!-- 🎉 Invitation Popup Modal -->
+<div id="invitationModal" class="modal">
+    <div class="modal-content invitation-popup">
+        <!-- Close button -->
+        <span class="close-btn">&times;</span>
+
+        <!-- Invitation Image -->
+        <img src="https://raw.githubusercontent.com/acfufu-lab/invitation-website/main/Pastel Floral Cute Girl 1st Birthday Invitation (4).png"
+             alt="Floral Invitation" class="floral-invitation-image"
+             width="400" height="500">
+
+        <!-- 🎉 Locate Venue Button inside Modal -->
+        <button class="modern-btn">📍 Locate Venue</button>
+    </div>
+</div>
+
+<!-- 📍 Venue Modal -->
+<div id="popupModal" class="modal">
+    <div class="modal-content">
+        <!-- Close button -->
+        <span class="close-btn">&times;</span>
+        
+        <!-- Title -->
+        <h2>📍 Oriental Mindoro Heritage Museum</h2>
+
+        <!-- Added Image -->
+        <img src="https://raw.githubusercontent.com/acfufu-lab/invitation-website/main/museum.jpg" loading="lazy" 
+             alt="Oriental Mindoro Heritage Museum" 
+             style="width: 100%; border-radius: 10px; margin-bottom: 10px;">
+
+        <!-- Google Maps Embed -->
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d789.3060725418945!2d121.1775788!3d13.4149117!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bce9b41875f6f3%3A0x35396e7c331602b7!2sOriental%20Mindoro%20Heritage%20Museum!5e0!3m2!1sen!2sph!4v1709057890123"
+            width="100%" height="300" style="border:0; border-radius: 10px;" allowfullscreen="" loading="lazy">
+        </iframe>
+
+        <!-- Direct Google Maps Link -->
+        <p>
+            <a href="https://www.google.com/maps/dir/St.+Benedict+Chaplaincy,+Calapan,+Oriental+Mindoro/C57J%2BX36+Oriental+Mindoro+Heritage+Museum,+Calapan,+Oriental+Mindoro/" 
+               target="_blank" style="display: inline-block; margin-top: 10px; text-decoration: none; color: #007bff; font-weight: bold;">
+                📍 Open in Google Maps
+            </a>
+        </p>
+    </div>
+</div>
+
+
+
+
+    <script>
+
+document.addEventListener("DOMContentLoaded", function () {
+    const text = `Born into this world not very long ago, My parents gave me all I need and all their love to grow.
+Nanay & Tatay will raise me strong and always keep me true,
+But their trust & love for me are also shared with you.
+
+With joy in our hearts, we invite you to be part of a special day—
+My First Birthday & Christening on March 9, 2025 at the Oriental Mindoro Heritage Museum at 10:30 AM. Your presence will make this day even more meaningful as I celebrate life and faith surrounded by love.
+
+Lot's of Love,
+Ayla Caryn`.replace(/\n/g, "<br>"); // Replace line breaks with <br>
+
+    let index = 0;
+    const typingSpeed = 50;  // Speed of typing (adjust for faster/slower effect)
+    const eraseSpeed = 1;   // Speed of erasing text
+    const restartDelay = 3000; // Delay before restarting (3 seconds)
+    const typingText = document.getElementById("typingText");
+
+    function typeLetter() {
+        if (index < text.length) {
+            typingText.innerHTML += text.charAt(index);
+            index++;
+            setTimeout(typeLetter, typingSpeed);
+        } else {
+            setTimeout(eraseText, restartDelay); // Wait before erasing
+        }
+    }
+
+    function eraseText() {
+        if (index > 0) {
+            typingText.innerHTML = text.substring(0, index - 1);
+            index--;
+            setTimeout(eraseText, eraseSpeed);
+        } else {
+            setTimeout(typeLetter, restartDelay); // Restart typing
+        }
+    }
+
+    typeLetter(); // Start typing effect
+});
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const rsvpForm = document.getElementById("rsvpFormSubmit");
+
+    rsvpForm.addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Get form values
+        const formData = {
+            timestamp: new Date().toISOString(), // Add timestamp
+            fullName: document.getElementById("fullName").value.trim(),
+            address: document.getElementById("address").value.trim(),
+            contactNumber: document.getElementById("contactNumber").value.trim(),
+            adultGuests: document.getElementById("adultGuests").value.trim(),
+            kidGuests: document.getElementById("kidGuests").value.trim(),
+           
+        };
+
+        // ✅ **Your GitHub Details**
+        const githubUsername = "acfufu-lab";  // Your GitHub username
+        const repoName = "invitation-website"; // Your repository name
+        const filePath = "data/rsvp.json";  // Path to the JSON file
+        const githubToken = "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";  // 🔴 Secure this token!
+
+        // ✅ **Fetch existing RSVP data first**
+        fetch(`https://api.github.com/repos/${githubUsername}/${repoName}/contents/${filePath}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `token ${githubToken}`,
+                "Accept": "application/vnd.github.v3+json"
+            }
+        })
+        .then(response => response.json())
+        .then(fileData => {
+            // Decode existing JSON content from Base64
+            let existingData = [];
+            if (fileData.content) {
+                existingData = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
+            }
+
+            // Append the new RSVP entry
+            existingData.push(formData);
+
+            // Convert updated JSON data to Base64
+            const updatedContent = btoa(unescape(encodeURIComponent(JSON.stringify(existingData, null, 2))));
+
+            // ✅ **Push updated JSON back to GitHub**
+            const requestBody = {
+                message: "Added new RSVP entry",
+                content: updatedContent,
+                sha: fileData.sha  // Required to update the file
+            };
+
+            return fetch(`https://api.github.com/repos/${githubUsername}/${repoName}/contents/${filePath}`, {
+                method: "PUT",
+                headers: {
+                    "Authorization": `token ${githubToken}`,
+                    "Accept": "application/vnd.github.v3+json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestBody)
+            });
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.commit) {
+                alert("🎉 RSVP Submitted Successfully!");
+                rsvpForm.reset();
+                closeRSVP();
+            } else {
+                alert("⚠️ Submission Failed: " + data.message);
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("⚠️ Submission Failed. Please try again.");
+        });
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const text = "Please RSVP";
+    let index = 0;
+    const speed = 80; // Fast typing speed
+
+    function typeWriter() {
+        if (index < text.length) {
+            document.getElementById("typewriter").innerHTML += text.charAt(index);
+            index++;
+            setTimeout(typeWriter, speed);
+        } else {
+            document.getElementById("cursor").style.display = "inline-block"; // Cursor keeps blinking after typing
+        }
+    }
+
+    typeWriter(); // Start animation on page load
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const rsvpForm = document.getElementById("rsvpForm");
+    const rsvpBtn = document.querySelector(".rsvp-btn");
+
+    // 📌 Toggle RSVP Form When Clicking RSVP Button
+    rsvpBtn.addEventListener("click", function (event) {
+        event.preventDefault(); // Prevents page reload
+        rsvpForm.classList.toggle("show"); // Toggle sliding effect
+    });
+
+    // 📌 Close RSVP Form When Clicking Outside
+    document.addEventListener("click", function (event) {
+        if (!rsvpForm.contains(event.target) && event.target !== rsvpBtn) {
+            closeRSVP();
+        }
+    });
+});
+
+// 📌 Close RSVP Form Function
+function closeRSVP() {
+    document.getElementById("rsvpForm").classList.remove("show");
+}
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    let video = document.getElementById("scrollVideo");
+
+    // Force autoplay on page load
+    video.play().catch(error => {
+        console.error("Autoplay failed:", error);
+    });
+
+    // Ensure the video replays when it ends
+    video.addEventListener("ended", () => {
+        video.currentTime = 0;
+        video.play();
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const starContainer = document.getElementById("shooting-stars");
+
+    function createShootingStar() {
+        let star = document.createElement("div");
+        star.classList.add("shooting-star");
+
+        // Random start position (upper part of screen)
+        let startX = Math.random() * window.innerWidth;
+        let startY = Math.random() * window.innerHeight * 0.5;
+
+        star.style.left = `${startX}px`;
+        star.style.top = `${startY}px`;
+
+        starContainer.appendChild(star);
+
+        console.log("Shooting star created at:", startX, startY); // Debugging log
+
+        // Remove star after animation completes
+        setTimeout(() => {
+            star.remove();
+            console.log("Shooting star removed");
+        }, 2000);
+    }
+
+    function generateStars() {
+        setInterval(() => {
+            if (document.querySelectorAll(".shooting-star").length < 10) { // Limit to 10 stars
+                createShootingStar();
+            }
+        }, 500); // Stars appear more frequently
+    }
+
+    generateStars(); // Start generating stars
+});
+
+
+
+       let slides = document.querySelectorAll('.slide');
+        let cardsContainer = document.getElementById('cards');
+        let moonpieTitle = document.getElementById('moonpieTitle');
+        let currentIndex = 0;
+
+        function nextSlide() {
+            slides[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % slides.length;
+            slides[currentIndex].classList.add('active');
+        }
+
+        function moveCards() {
+            cardsContainer.style.transition = 'transform 1s ease-in-out';
+            cardsContainer.style.transform = 'translateX(-215px)';
+            setTimeout(() => {
+                let firstCard = cardsContainer.firstElementChild;
+                cardsContainer.appendChild(firstCard);
+                cardsContainer.style.transition = 'none';
+                cardsContainer.style.transform = 'translateX(0)';
+            }, 1000);
+
+        }
+     
+        setInterval(() => {
+            nextSlide();
+            moveCards();
+        }, 3000);
+        "use strict";
+
+// 📜 Navbar Scroll Hide Effect
+let lastScrollY = window.scrollY;
+window.addEventListener("scroll", () => {
+    let navbar = document.getElementById("navbar");
+    if (window.scrollY > lastScrollY) {
+        navbar.classList.add("hidden"); // Hide on scroll down
+    } else {
+        navbar.classList.remove("hidden"); // Show on scroll up
+    }
+    lastScrollY = window.scrollY;
+});
+
+// 📱 Mobile Menu Toggle
+function toggleMenu() {
+    let menu = document.getElementById("nav-menu");
+    menu.classList.toggle("active");
+}
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Get modals
+    const venueModal = document.getElementById("popupModal");
+    const invitationModal = document.getElementById("invitationModal");
+
+    // Get the "Locate Venue" button inside the invitation modal
+    const locateVenueBtn = document.querySelector("#invitationModal .modern-btn");
+
+    // Get all close buttons inside modals
+    const closeButtons = document.querySelectorAll(".modal .close-btn");
+
+    // Ensure modals are hidden on page load
+    venueModal.style.display = "none";
+    invitationModal.style.display = "none";
+
+    // Open Venue Modal & Close Invitation Modal when "Locate Venue" is clicked
+    locateVenueBtn.addEventListener("click", function () {
+        console.log("Locate Venue clicked"); // Debugging log
+        invitationModal.style.display = "none"; // Close invitation modal
+
+        // Show and maximize the venue modal
+        venueModal.style.display = "flex"; // Use flex for centering
+        venueModal.style.opacity = "1"; // Ensure opacity is set
+        venueModal.style.visibility = "visible"; // Ensure it's not hidden
+        venueModal.style.width = "100%"; // Ensure full width
+        venueModal.style.height = "100%"; // Ensure full height
+        console.log("Venue Modal should be displayed in full screen");
+    });
+
+    // Close modals when clicking close buttons
+    closeButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            console.log("Close button clicked"); // Debugging log
+            this.closest(".modal").style.display = "none"; // Close only the modal of the clicked button
+        });
+    });
+
+    // Close modals when clicking outside them
+    window.addEventListener("click", function (event) {
+        if (event.target.classList.contains("modal")) {
+            console.log("Clicked outside modal"); // Debugging log
+            event.target.style.display = "none";
+        }
+    });
+});
+
+
+
+
+"use strict";
+
+
+// 📢 Function to Update Notification Badge
+function updateInvitationNotification(count) {
+    let badge = document.getElementById("inviteBadge");
+
+    if (count > 0) {
+        badge.textContent = count;
+        badge.style.display = "flex";
+    } else {
+        badge.style.display = "none"; // Hide badge if count is 0
+    }
+}
+
+// 🔄 Simulate New Invitations (Example)
+let invitationCount = 1; // Change this dynamically if needed
+
+
+
+// Initialize notification count on load
+document.addEventListener("DOMContentLoaded", function () {
+    updateInvitationNotification(invitationCount);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const giftIcon = document.querySelector(".gift-icon");
+
+    // Simulate new gift ideas available (show the gift box)
+    let showGiftIcon = true; 
+
+
+    // Show gift icon on page load (if new gift ideas are available)
+    if (showGiftIcon) {
+        giftIcon.style.display = "inline-block";
+    } else {
+        giftIcon.style.display = "none";
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const giftPanel = document.getElementById("giftPanel");
+    const giftLink = document.getElementById("giftLink");
+
+    // Toggle gift panel when "Gift Ideas" is clicked
+    giftLink.addEventListener("click", function (event) {
+        event.preventDefault(); // Prevent default link behavior
+
+        if (giftPanel.classList.contains("show")) {
+            giftPanel.classList.remove("show");
+            giftPanel.classList.add("hide"); // Start slide up animation
+            setTimeout(() => {
+                giftPanel.style.display = "none"; // Fully hide after animation
+                giftPanel.classList.remove("hide"); // Remove hide class
+            }, 500);
+        } else {
+            giftPanel.style.display = "block";
+            setTimeout(() => { giftPanel.classList.add("show"); }, 10); // Start slide down animation
+        }
+    });
+
+    // Close the panel when clicking outside
+    document.addEventListener("click", function (event) {
+        if (!giftPanel.contains(event.target) && event.target !== giftLink) {
+            giftPanel.classList.remove("show");
+            giftPanel.classList.add("hide");
+            setTimeout(() => {
+                giftPanel.style.display = "none";
+                giftPanel.classList.remove("hide");
+            }, 500);
+        }
+    });
+});
+
+
+"use strict";
+
+// 📌 Function to Open the Invitation Modal
+function openInvitationModal() {
+    let modal = document.getElementById("invitationModal");
+    modal.style.display = "flex";
+
+    // Add smooth animation
+    setTimeout(() => {
+        modal.classList.add("show");
+        document.querySelector(".invitation-popup").classList.add("show");
+    }, 10);
+}
+
+// 📌 Function to Close the Invitation Modal
+function closeInvitationModal() {
+    let modal = document.getElementById("invitationModal");
+    modal.classList.remove("show");
+    document.querySelector(".invitation-popup").classList.remove("show");
+
+    // Delay before hiding to match animation
+    setTimeout(() => {
+        modal.style.display = "none";
+    }, 300);
+}
+
+// 📢 Make "Invitation" in Navbar Open the Modal
+document.querySelector(".notification").addEventListener("click", function (event) {
+    event.preventDefault(); // Prevents jumping to the section
+    openInvitationModal();
+});
+
+
+
+
+function updateCountdown() {
+    const targetDate = new Date("March 9, 2025 00:00:00").getTime();
+    const now = new Date().getTime();
+    const timeLeft = targetDate - now;
+
+    if (timeLeft < 0) {
+        clearInterval(countdownInterval);
+        document.querySelector(".countdown-container").innerHTML = "<p class='expired'>🎉 Event Started! 🎉</p>";
+        return;
+    }
+
+    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+    document.getElementById("days").textContent = days.toString().padStart(2, "0");
+    document.getElementById("hours").textContent = hours.toString().padStart(2, "0");
+    document.getElementById("minutes").textContent = minutes.toString().padStart(2, "0");
+    document.getElementById("seconds").textContent = seconds.toString().padStart(2, "0");
+}
+
+const countdownInterval = setInterval(updateCountdown, 1000);
+updateCountdown();
+
+
+
+        window.addEventListener('scroll', handleScroll);
+        setInterval(() => {
+            nextSlide();
+            moveCards();
+        }, 3000);
+
+
+    </script>
+
+
+
+
+
+
+    <script type="module">
+  import { Toast } from 'bootstrap.esm.min.js'
+
+  Array.from(document.querySelectorAll('.toast'))
+    .forEach(toastNode => new Toast(toastNode))
+</script>
+
+<script>
+    // JavaScript for Slideshow Transition
+    let slides1 = document.querySelectorAll(".slide");
+    let currentIndex1 = 0;
+
+    function nextSlide() {
+    slides[currentIndex].classList.remove("active");
+    currentIndex = (currentIndex + 1) % slides.length;
+    slides[currentIndex].classList.add("active");
+}
+
+// Start the slideshow only if multiple slides exist
+if (slides.length > 1) {
+    setInterval(nextSlide, 3000);
+}
+
+</script>
+
+
 </body>
 </html>
